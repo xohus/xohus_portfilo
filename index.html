@@ -11,15 +11,15 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ["Roboto", "system-ui", "sans-serif"],
-            display: ["Inter", "system-ui", "sans-serif"]
+            sans: ["Manrope", "system-ui", "sans-serif"],
+            display: ["Sora", "system-ui", "sans-serif"]
           }
         }
       }
@@ -27,19 +27,16 @@
   </script>
 
   <style>
-    @property --beam-angle {
-      syntax: "<angle>";
-      inherits: false;
-      initial-value: 0deg;
-    }
-
     :root {
-      --bg: #050505;
-      --panel: rgba(18, 18, 18, 0.74);
+      --bg: #050506;
+      --panel: #0d0e12;
       --line: rgba(255, 255, 255, 0.12);
-      --muted: #a1a1aa;
-      --mx: 50%;
-      --my: 50%;
+      --muted: rgba(247, 247, 248, 0.64);
+      --soft: rgba(247, 247, 248, 0.38);
+      --accent: #ff3b3b;
+      --accent-blue: #8fb7ff;
+      --mx: 50vw;
+      --my: 20vh;
     }
 
     * {
@@ -51,193 +48,119 @@
       margin: 0;
       min-height: 100%;
       background: var(--bg);
-      color: #f5f5f5;
-      font-family: Roboto, system-ui, sans-serif;
+      color: #f7f7f8;
+      font-family: Manrope, system-ui, sans-serif;
       overflow-x: hidden;
     }
 
     body {
       background:
-        radial-gradient(900px circle at 18% 8%, rgba(255, 255, 255, 0.075), transparent 34%),
-        radial-gradient(720px circle at 80% 18%, rgba(255, 255, 255, 0.045), transparent 32%),
-        linear-gradient(180deg, #050505 0%, #090909 48%, #040404 100%);
+        radial-gradient(760px circle at var(--mx) var(--my), rgba(143, 183, 255, 0.11), transparent 45%),
+        radial-gradient(700px circle at 12% 14%, rgba(255, 59, 59, 0.11), transparent 38%),
+        linear-gradient(180deg, #050506 0%, #0a0b0f 48%, #050506 100%);
+    }
+
+    a,
+    button {
+      -webkit-tap-highlight-color: transparent;
     }
 
     ::selection {
-      background: #f5f5f5;
-      color: #050505;
+      background: #f7f7f8;
+      color: #050506;
     }
 
-    .font-display {
-      font-family: Inter, system-ui, sans-serif;
-    }
-
-    .noise {
+    .grain {
       pointer-events: none;
       position: fixed;
       inset: 0;
-      z-index: 60;
-      opacity: 0.045;
-      background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0);
-      background-size: 24px 24px;
+      z-index: 90;
+      opacity: 0.05;
+      background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0);
+      background-size: 18px 18px;
       mix-blend-mode: overlay;
     }
 
-    .scroll-progress {
+    .progress {
       position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 80;
-      height: 2px;
+      inset: 0 auto auto 0;
+      z-index: 100;
       width: 0%;
-      background: linear-gradient(90deg, #ffffff, #707070);
+      height: 2px;
+      background: linear-gradient(90deg, #fff, var(--accent), var(--accent-blue));
     }
 
-    .spotlight {
-      background: radial-gradient(720px circle at var(--mx) var(--my), rgba(255, 255, 255, 0.07), transparent 46%);
+    .hairline {
+      border-color: var(--line);
     }
 
-    .grid-field {
-      background-image:
-        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
-      background-size: 64px 64px;
-      mask-image: radial-gradient(circle at center, black, transparent 74%);
-      animation: gridShift 18s linear infinite;
-    }
-
-    @keyframes gridShift {
-      to {
-        background-position: 64px 64px, 64px 64px;
-      }
-    }
-
-    .aurora {
-      position: absolute;
-      inset: -20% -10% auto -10%;
-      height: 52vh;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.09), transparent 30%),
-        radial-gradient(circle at 64% 10%, rgba(255,255,255,0.06), transparent 26%);
-      filter: blur(60px);
-      opacity: 0.85;
-    }
-
-    .reveal {
-      opacity: 0;
-      filter: blur(14px);
-      transform: translateY(24px);
-      transition: opacity 800ms ease, filter 800ms ease, transform 800ms ease;
-    }
-
-    .reveal.show {
-      opacity: 1;
-      filter: blur(0);
-      transform: translateY(0);
-    }
-
-    .panel {
+    .glass {
       position: relative;
       overflow: hidden;
       border: 1px solid var(--line);
       background:
-        linear-gradient(145deg, rgba(255,255,255,0.075), rgba(255,255,255,0.018) 44%, rgba(255,255,255,0.045)),
-        var(--panel);
-      box-shadow: 0 28px 80px rgba(0,0,0,0.34);
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.018) 46%, rgba(255, 255, 255, 0.05)),
+        rgba(13, 14, 18, 0.72);
+      box-shadow: 0 26px 90px rgba(0, 0, 0, 0.36);
       backdrop-filter: blur(18px);
     }
 
-    .panel::before {
+    .glass::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(520px circle at var(--px, 50%) var(--py, 50%), rgba(255,255,255,0.12), transparent 46%);
+      pointer-events: none;
+      background: radial-gradient(540px circle at var(--px, 50%) var(--py, 50%), rgba(255, 255, 255, 0.14), transparent 48%);
       opacity: 0;
       transition: opacity 180ms ease;
-      pointer-events: none;
     }
 
-    .panel:hover::before {
+    .glass:hover::before {
       opacity: 1;
     }
 
-    .beam {
-      isolation: isolate;
+    .grid-surface {
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(circle at center, black, transparent 72%);
     }
 
-    .beam::after {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      z-index: -1;
-      background: conic-gradient(from var(--beam-angle), transparent 0deg, rgba(255,255,255,0.42) 34deg, transparent 86deg);
+    .kicker {
+      color: var(--soft);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+
+    .display-tight {
+      font-family: Sora, system-ui, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .wordmark {
+      font-size: clamp(5.3rem, 18vw, 16rem);
+      line-height: 0.78;
+    }
+
+    .section-title {
+      font-size: clamp(3.1rem, 8vw, 7.2rem);
+      line-height: 0.92;
+    }
+
+    .fade-up {
       opacity: 0;
-      transition: opacity 180ms ease;
-      animation: beamSpin 7s linear infinite;
+      transform: translateY(28px);
+      filter: blur(12px);
+      transition: opacity 760ms ease, transform 760ms ease, filter 760ms ease;
     }
 
-    .beam:hover::after {
-      opacity: 0.9;
-    }
-
-    @keyframes beamSpin {
-      to {
-        --beam-angle: 360deg;
-      }
-    }
-
-    .shimmer {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .shimmer::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.26) 45%, transparent 66%);
-      transform: translateX(-140%);
-      transition: transform 720ms ease;
-      pointer-events: none;
-    }
-
-    .shimmer:hover::after {
-      transform: translateX(140%);
-    }
-
-    .media-frame {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: #0b0b0b;
-    }
-
-    .media-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(1) contrast(1.07);
-      transform: scale(1.015);
-      transition: transform 700ms ease, filter 700ms ease;
-    }
-
-    .media-frame:hover img {
-      transform: scale(1.055);
-      filter: grayscale(0.25) contrast(1.06);
-    }
-
-    .logo-mark {
-      width: min(68%, 280px);
-      max-height: 150px;
-      object-fit: contain;
-      filter: grayscale(1) drop-shadow(0 24px 40px rgba(0,0,0,0.45));
-    }
-
-    .section-line {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      mask-image: linear-gradient(90deg, transparent, black 18%, black 82%, transparent);
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
     }
 
     .marquee {
@@ -245,7 +168,7 @@
       gap: 1rem;
       overflow: hidden;
       user-select: none;
-      mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+      mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
     }
 
     .marquee-track {
@@ -254,12 +177,71 @@
       flex-shrink: 0;
       justify-content: space-around;
       gap: 1rem;
-      animation: marqueeMove 26s linear infinite;
+      animation: marquee 28s linear infinite;
     }
 
-    @keyframes marqueeMove {
+    .type-panel {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .type-panel::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .giant-label {
+      color: rgba(255, 255, 255, 0.08);
+      font-family: Sora, system-ui, sans-serif;
+      font-size: clamp(4.5rem, 11vw, 11rem);
+      font-weight: 800;
+      line-height: 0.78;
+      word-break: break-word;
+    }
+
+    .project-row {
+      position: relative;
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: minmax(0, 1fr);
+      border-top: 1px solid var(--line);
+      padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+    }
+
+    .project-row:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .project-index {
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    @media (min-width: 768px) {
+      .project-row {
+        grid-template-columns: 0.28fr 1fr 0.58fr;
+        align-items: end;
+      }
+    }
+
+    @keyframes marquee {
       to {
         transform: translateX(calc(-100% - 1rem));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wordmark {
+        font-size: clamp(4.4rem, 24vw, 7rem);
       }
     }
 
@@ -277,285 +259,244 @@
 </head>
 
 <body>
-  <div class="scroll-progress" id="scrollProgress"></div>
-  <div class="noise"></div>
+  <div class="progress" id="progress"></div>
+  <div class="grain"></div>
 
-  <header class="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/55 backdrop-blur-2xl">
+  <header class="fixed left-0 top-0 z-50 w-full border-b hairline bg-[#050506]/70 backdrop-blur-2xl">
     <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-      <a href="#" class="font-display text-sm font-black tracking-tight text-white">Xohus</a>
+      <a href="#top" class="display-tight text-sm font-extrabold text-white">XOHUS</a>
 
-      <div class="hidden items-center gap-8 text-sm font-medium text-neutral-400 md:flex">
+      <div class="hidden items-center gap-7 text-sm font-bold text-white/45 md:flex">
         <a href="#about" class="transition hover:text-white">About</a>
         <a href="#projects" class="transition hover:text-white">Projects</a>
-        <a href="#focus" class="transition hover:text-white">Focus</a>
+        <a href="#stack" class="transition hover:text-white">Stack</a>
         <a href="#contact" class="transition hover:text-white">Contact</a>
       </div>
 
-      <a href="#contact" class="shimmer border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold text-white transition hover:border-white/40 hover:bg-white/10">
-        Contact
+      <a href="#projects" class="rounded-full border hairline bg-white/[0.06] px-4 py-2 text-sm font-extrabold text-white transition hover:border-white/35 hover:bg-white/[0.12]">
+        Work
       </a>
     </nav>
   </header>
 
-  <main class="spotlight relative">
-    <section class="relative min-h-screen overflow-hidden px-5 pt-32 md:px-8 md:pt-40">
-      <div class="aurora"></div>
-      <div class="grid-field absolute inset-0 opacity-80"></div>
-
+  <main id="top">
+    <section class="relative min-h-screen overflow-hidden px-5 pb-12 pt-28 md:px-8 md:pt-36">
+      <div class="grid-surface absolute inset-0 opacity-60"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="grid gap-12 md:grid-cols-12 md:items-end">
-          <div class="reveal md:col-span-8">
-            <p class="mb-6 text-xs font-black uppercase tracking-[0.34em] text-neutral-500">
-              Developer / founder / builder
+        <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+          <div class="fade-up lg:col-span-9">
+            <p class="kicker mb-6">Developer / founder / builder</p>
+            <h1 class="display-tight wordmark font-extrabold text-white">Xohus</h1>
+            <p class="mt-8 max-w-3xl text-lg leading-9 text-white/66 md:text-xl">
+              I build clean web tools, Discord systems, Roblox utilities, payment platforms, and automation products with sharp interfaces and useful flows.
             </p>
-
-            <h1 class="font-display text-[clamp(5rem,15vw,14rem)] font-black leading-[0.78] tracking-[-0.08em] text-white">
-              Xohus
-            </h1>
-
-            <p class="mt-8 max-w-3xl text-lg leading-9 text-neutral-300 md:text-xl">
-              Developer, founder, and builder of web tools, Discord systems, Roblox utilities, payment platforms, and automation tools.
-            </p>
-
-            <div class="mt-10 flex flex-wrap gap-3">
-              <a href="#projects" class="shimmer bg-white px-5 py-3 text-sm font-black text-black shadow-[10px_10px_0_rgba(255,255,255,0.12)] transition hover:bg-neutral-200">
-                View Projects
+            <div class="mt-10 flex flex-wrap items-center gap-3">
+              <a href="#projects" class="rounded-full bg-white px-5 py-3 text-sm font-extrabold text-black transition hover:bg-white/82">
+                View projects
               </a>
-              <a href="#contact" class="shimmer border border-white/15 bg-white/5 px-5 py-3 text-sm font-black text-white transition hover:border-white/40 hover:bg-white/10">
+              <a href="#contact" class="rounded-full border hairline bg-white/[0.05] px-5 py-3 text-sm font-extrabold text-white transition hover:border-white/35 hover:bg-white/[0.11]">
                 Contact
               </a>
             </div>
           </div>
 
-          <div class="reveal md:col-span-4" style="transition-delay: 120ms">
-            <div class="panel beam p-3">
-              <div class="media-frame aspect-[4/5]">
-                <img src="./me.png" alt="Xohus" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+          <div class="fade-up lg:col-span-3" style="transition-delay: 120ms">
+            <div class="glass type-panel p-6">
+              <div>
+                <p class="kicker">Signal</p>
+                <p class="mt-5 text-sm font-bold leading-7 text-white/54">
+                  Web tools, Discord systems, Roblox utilities, payment concepts, and automation.
+                </p>
               </div>
+              <p class="giant-label">XO</p>
             </div>
           </div>
         </div>
 
-        <div class="reveal mt-16 grid gap-4 md:grid-cols-3" style="transition-delay: 180ms">
-          <div class="panel p-6">
-            <p class="text-xs font-black uppercase tracking-[0.28em] text-neutral-500">Main brand</p>
-            <p class="font-display mt-4 text-3xl font-black text-white">Clarity</p>
+        <div class="fade-up mt-14 grid gap-3 md:grid-cols-3" style="transition-delay: 180ms">
+          <div class="glass p-5">
+            <p class="kicker">Current brand</p>
+            <p class="display-tight mt-4 text-3xl font-extrabold">Clarity</p>
           </div>
-          <div class="panel p-6">
-            <p class="text-xs font-black uppercase tracking-[0.28em] text-neutral-500">Work type</p>
-            <p class="font-display mt-4 text-3xl font-black text-white">Tools and platforms</p>
+          <div class="glass p-5">
+            <p class="kicker">Build style</p>
+            <p class="display-tight mt-4 text-3xl font-extrabold">Fast + polished</p>
           </div>
-          <div class="panel p-6">
-            <p class="text-xs font-black uppercase tracking-[0.28em] text-neutral-500">Style</p>
-            <p class="font-display mt-4 text-3xl font-black text-white">Clean, fast, useful</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="section-line"></div>
-
-    <section id="about" class="relative px-5 py-24 md:px-8">
-      <div class="mx-auto grid max-w-7xl gap-12 md:grid-cols-12 md:items-start">
-        <div class="reveal md:col-span-4">
-          <p class="mb-4 text-xs font-black uppercase tracking-[0.34em] text-neutral-500">About</p>
-          <h2 class="font-display text-4xl font-black leading-tight text-white md:text-6xl">
-            Clean digital products with a real use case.
-          </h2>
-        </div>
-
-        <div class="reveal md:col-span-8" style="transition-delay: 100ms">
-          <div class="panel p-8 md:p-10">
-            <p class="max-w-4xl text-xl leading-10 text-neutral-300">
-              I build clean digital products, automation tools, Discord bots, Roblox utilities, payment systems, and modern web platforms. I focus on smooth UI, useful features, and fast execution.
-            </p>
+          <div class="glass p-5">
+            <p class="kicker">Output</p>
+            <p class="display-tight mt-4 text-3xl font-extrabold">Tools that ship</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="px-5 pb-10 md:px-8">
-      <div class="mx-auto max-w-7xl overflow-hidden border-y border-white/10 py-4">
+    <section id="about" class="border-y hairline px-5 py-20 md:px-8">
+      <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-12 lg:items-start">
+        <div class="fade-up lg:col-span-5">
+          <p class="kicker mb-5">About</p>
+          <h2 class="display-tight section-title font-extrabold text-white">Clean products with a real use case.</h2>
+        </div>
+        <div class="fade-up lg:col-span-7" style="transition-delay: 100ms">
+          <p class="text-xl leading-10 text-white/68">
+            My work sits around modern web pages, product systems, Discord automation, Roblox utilities, payment ideas, and brand-ready tooling. I care about interfaces that feel finished, load fast, and make the core action obvious.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-5 py-8 md:px-8">
+      <div class="mx-auto max-w-7xl border-y hairline py-4">
         <div class="marquee">
-          <div class="marquee-track text-xs font-black uppercase tracking-[0.28em] text-neutral-500">
+          <div class="marquee-track kicker">
             <span>Web development</span>
             <span>Discord bots</span>
             <span>Roblox scripting</span>
-            <span>UI/UX design</span>
-            <span>Payment systems</span>
-            <span>Automation tools</span>
+            <span>UI systems</span>
+            <span>Payments</span>
+            <span>Automation</span>
           </div>
-          <div class="marquee-track text-xs font-black uppercase tracking-[0.28em] text-neutral-500">
+          <div class="marquee-track kicker">
             <span>Web development</span>
             <span>Discord bots</span>
             <span>Roblox scripting</span>
-            <span>UI/UX design</span>
-            <span>Payment systems</span>
-            <span>Automation tools</span>
+            <span>UI systems</span>
+            <span>Payments</span>
+            <span>Automation</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="relative px-5 py-24 md:px-8">
-      <div class="grid-field absolute inset-0 opacity-30"></div>
+    <section id="projects" class="relative overflow-hidden px-5 py-24 md:px-8">
+      <div class="grid-surface absolute inset-0 opacity-35"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="mb-12 grid gap-6 md:grid-cols-12">
-          <div class="reveal md:col-span-7">
-            <p class="mb-4 text-xs font-black uppercase tracking-[0.34em] text-neutral-500">Projects</p>
-            <h2 class="font-display text-5xl font-black leading-none tracking-[-0.05em] text-white md:text-7xl">
-              Selected work.
-            </h2>
+        <div class="mb-12 grid gap-6 lg:grid-cols-12 lg:items-end">
+          <div class="fade-up lg:col-span-8">
+            <p class="kicker mb-5">Projects</p>
+            <h2 class="display-tight section-title font-extrabold text-white">Selected work.</h2>
           </div>
-          <p class="reveal max-w-md leading-8 text-neutral-400 md:col-span-4 md:col-start-9" style="transition-delay: 100ms">
-            A concise view of the public projects that matter most right now.
+          <p class="fade-up max-w-md leading-8 text-white/52 lg:col-span-4" style="transition-delay: 100ms">
+            A focused list of active, legacy, and paused work without extra visual noise.
           </p>
         </div>
 
-        <div class="grid gap-5 md:grid-cols-12">
-          <article class="panel beam reveal p-4 md:col-span-7">
-            <a href="https://claritydevs.lol" target="_blank" rel="noreferrer" class="block">
-              <div class="media-frame grid aspect-video place-items-center">
-                <div class="grid-field absolute inset-0 opacity-60"></div>
-                <img src="./clarity.png" alt="Clarity logo" class="logo-mark relative z-10" />
-              </div>
-
-              <div class="mt-6 grid gap-6 md:grid-cols-12">
-                <div class="md:col-span-4">
-                  <span class="border border-white/10 bg-white/5 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-neutral-300">Active</span>
-                </div>
-                <div class="md:col-span-8">
-                  <h3 class="font-display text-4xl font-black tracking-[-0.04em] text-white">Clarity</h3>
-                  <p class="mt-4 leading-8 text-neutral-400">
-                    Current main brand/project for scripts, tools, and development work. Lazy Devs moved into Clarity.
-                  </p>
-                </div>
-              </div>
+        <div class="fade-up">
+          <article class="project-row">
+            <p class="project-index">01 / Active</p>
+            <a href="https://claritydevs.lol" target="_blank" rel="noreferrer" class="group">
+              <h3 class="display-tight text-5xl font-extrabold leading-none text-white transition group-hover:text-[var(--accent-blue)] md:text-7xl">Clarity</h3>
             </a>
+            <p class="leading-8 text-white/56">
+              Current main brand for scripts, tools, and development work. Lazy Devs moved into Clarity.
+            </p>
           </article>
 
-          <article class="panel beam reveal p-6 md:col-span-5" style="transition-delay: 100ms">
-            <div class="flex h-full flex-col justify-between gap-10">
-              <div>
-                <span class="border border-white/10 bg-white/5 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-neutral-300">Legacy / moved to Clarity</span>
-                <h3 class="font-display mt-8 text-4xl font-black tracking-[-0.04em] text-white">Lazy Devs</h3>
-                <p class="mt-4 leading-8 text-neutral-400">
-                  Older scripts/tools brand before moving the work into Clarity.
-                </p>
-              </div>
-              <p class="border-t border-white/10 pt-5 text-sm font-bold text-neutral-400">lazydevs.lol</p>
-            </div>
+          <article class="project-row">
+            <p class="project-index">02 / Tools</p>
+            <h3 class="display-tight text-5xl font-extrabold leading-none text-white md:text-7xl">Hex Cheats</h3>
+            <p class="leading-8 text-white/56">
+              Tooling identity with a direct, high-contrast system for utility-focused work.
+            </p>
           </article>
 
-          <article class="panel beam reveal p-6 md:col-span-12" style="transition-delay: 160ms">
-            <div class="grid gap-8 md:grid-cols-12 md:items-end">
-              <div class="md:col-span-7">
-                <span class="border border-white/10 bg-white/5 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-neutral-300">Down / paused</span>
-                <h3 class="font-display mt-8 text-5xl font-black tracking-[-0.05em] text-white md:text-7xl">
-                  Xohus Interactive
-                </h3>
-              </div>
-              <p class="max-w-xl leading-8 text-neutral-400 md:col-span-5">
-                Payment processor / platform project. Currently down but still part of my work.
-              </p>
-            </div>
+          <article class="project-row">
+            <p class="project-index">03 / Legacy</p>
+            <h3 class="display-tight text-5xl font-extrabold leading-none text-white md:text-7xl">Lazy Devs</h3>
+            <p class="leading-8 text-white/56">
+              Earlier scripts and tools brand before the work moved into Clarity.
+            </p>
+          </article>
+
+          <article class="project-row">
+            <p class="project-index">04 / Paused</p>
+            <h3 class="display-tight text-5xl font-extrabold leading-none text-white md:text-7xl">Xohus Interactive</h3>
+            <p class="leading-8 text-white/56">
+              Payment processor and platform concept. Currently down, but still part of the product history.
+            </p>
           </article>
         </div>
       </div>
     </section>
 
-    <div class="section-line"></div>
-
-    <section id="focus" class="px-5 py-24 md:px-8">
+    <section id="stack" class="border-y hairline px-5 py-24 md:px-8">
       <div class="mx-auto max-w-7xl">
-        <div class="reveal mb-12 max-w-3xl">
-          <p class="mb-4 text-xs font-black uppercase tracking-[0.34em] text-neutral-500">Skills / Focus</p>
-          <h2 class="font-display text-5xl font-black leading-none tracking-[-0.05em] text-white md:text-7xl">
-            What I build around.
-          </h2>
+        <div class="fade-up mb-12 max-w-4xl">
+          <p class="kicker mb-5">Stack / Focus</p>
+          <h2 class="display-tight section-title font-extrabold text-white">Built around useful systems.</h2>
         </div>
 
-        <div class="grid gap-4 md:grid-cols-3">
-          <div class="panel reveal p-6">
-            <h3 class="font-display text-2xl font-black text-white">Web development</h3>
-            <p class="mt-4 leading-7 text-neutral-400">Modern pages, clean layouts, and practical web platforms.</p>
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div class="glass fade-up p-6">
+            <h3 class="display-tight text-2xl font-extrabold">Web development</h3>
+            <p class="mt-4 leading-7 text-white/54">Portfolio pages, product interfaces, and clean web platforms.</p>
           </div>
-          <div class="panel reveal p-6" style="transition-delay: 60ms">
-            <h3 class="font-display text-2xl font-black text-white">Discord bots</h3>
-            <p class="mt-4 leading-7 text-neutral-400">Command systems, automation, AI ideas, and community tools.</p>
+          <div class="glass fade-up p-6" style="transition-delay: 60ms">
+            <h3 class="display-tight text-2xl font-extrabold">Discord bots</h3>
+            <p class="mt-4 leading-7 text-white/54">Automation, commands, community tooling, and practical bot systems.</p>
           </div>
-          <div class="panel reveal p-6" style="transition-delay: 120ms">
-            <h3 class="font-display text-2xl font-black text-white">Roblox scripting</h3>
-            <p class="mt-4 leading-7 text-neutral-400">Utilities, script hubs, custom interfaces, and mobile-friendly flows.</p>
+          <div class="glass fade-up p-6" style="transition-delay: 120ms">
+            <h3 class="display-tight text-2xl font-extrabold">Roblox scripting</h3>
+            <p class="mt-4 leading-7 text-white/54">Utilities, script hubs, custom UI, and mobile-friendly flows.</p>
           </div>
-          <div class="panel reveal p-6" style="transition-delay: 180ms">
-            <h3 class="font-display text-2xl font-black text-white">UI/UX design</h3>
-            <p class="mt-4 leading-7 text-neutral-400">Simple screens, strong spacing, and interfaces that feel easy to use.</p>
+          <div class="glass fade-up p-6" style="transition-delay: 180ms">
+            <h3 class="display-tight text-2xl font-extrabold">UI/UX design</h3>
+            <p class="mt-4 leading-7 text-white/54">Strong spacing, readable hierarchy, and screens that feel easy to use.</p>
           </div>
-          <div class="panel reveal p-6" style="transition-delay: 240ms">
-            <h3 class="font-display text-2xl font-black text-white">Payment systems</h3>
-            <p class="mt-4 leading-7 text-neutral-400">Platform ideas and payment flows connected to online products.</p>
+          <div class="glass fade-up p-6" style="transition-delay: 240ms">
+            <h3 class="display-tight text-2xl font-extrabold">Payment systems</h3>
+            <p class="mt-4 leading-7 text-white/54">Product and platform ideas connected to online transactions.</p>
           </div>
-          <div class="panel reveal p-6" style="transition-delay: 300ms">
-            <h3 class="font-display text-2xl font-black text-white">Automation tools</h3>
-            <p class="mt-4 leading-7 text-neutral-400">Small tools and systems that reduce manual work.</p>
-          </div>
-          <div class="panel reveal p-6 md:col-span-3" style="transition-delay: 360ms">
-            <h3 class="font-display text-2xl font-black text-white">Branding and product building</h3>
-            <p class="mt-4 max-w-3xl leading-7 text-neutral-400">Names, positioning, product pages, and the parts that make a project feel finished.</p>
+          <div class="glass fade-up p-6" style="transition-delay: 300ms">
+            <h3 class="display-tight text-2xl font-extrabold">Automation tools</h3>
+            <p class="mt-4 leading-7 text-white/54">Small systems that cut repetitive work and make actions faster.</p>
           </div>
         </div>
       </div>
     </section>
 
     <section id="contact" class="relative overflow-hidden px-5 py-24 md:px-8">
-      <div class="aurora opacity-60"></div>
-      <div class="relative z-10 mx-auto grid max-w-7xl gap-10 md:grid-cols-12 md:items-end">
-        <div class="reveal md:col-span-7">
-          <p class="mb-4 text-xs font-black uppercase tracking-[0.34em] text-neutral-500">Contact</p>
-          <h2 class="font-display text-6xl font-black leading-none tracking-[-0.07em] text-white md:text-8xl">
-            Let’s build something clean.
-          </h2>
-          <p class="mt-7 max-w-xl leading-8 text-neutral-400">
-            For projects, collaborations, or direct questions, reach out below.
+      <div class="grid-surface absolute inset-0 opacity-30"></div>
+      <div class="relative z-10 mx-auto grid max-w-7xl gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="fade-up lg:col-span-7">
+          <p class="kicker mb-5">Contact</p>
+          <h2 class="display-tight section-title font-extrabold text-white">Let us build something clean.</h2>
+          <p class="mt-7 max-w-xl leading-8 text-white/56">
+            For projects, collaborations, or direct questions, use one of the links.
           </p>
         </div>
 
-        <div class="reveal md:col-span-5" style="transition-delay: 100ms">
-          <div class="panel p-6">
-            <div class="space-y-3">
-              <a href="mailto:xohus@tuta.com" class="shimmer flex items-center justify-between border border-white/10 bg-white/[0.03] px-4 py-4 text-sm font-bold text-white transition hover:border-white/40 hover:bg-white/10">
-                <span>xohus@tuta.com</span>
-                <span>Email</span>
-              </a>
-              <a href="https://wa.me/15815912714" target="_blank" rel="noreferrer" class="shimmer flex items-center justify-between border border-white/10 bg-white/[0.03] px-4 py-4 text-sm font-bold text-white transition hover:border-white/40 hover:bg-white/10">
-                <span>+1 581 591 2714</span>
-                <span>WhatsApp</span>
-              </a>
-              <button id="copyDiscord" class="shimmer flex w-full items-center justify-between border border-white/10 bg-white/[0.03] px-4 py-4 text-left text-sm font-bold text-white transition hover:border-white/40 hover:bg-white/10">
-                <span>kp9b</span>
-                <span id="discordLabel">Discord</span>
-              </button>
-            </div>
+        <div class="glass fade-up p-5 lg:col-span-5" style="transition-delay: 100ms">
+          <div class="space-y-3">
+            <a href="mailto:xohus@tuta.com" class="flex items-center justify-between rounded-md border hairline bg-white/[0.04] px-4 py-4 text-sm font-extrabold text-white transition hover:border-white/35 hover:bg-white/[0.1]">
+              <span>xohus@tuta.com</span>
+              <span class="text-white/42">Email</span>
+            </a>
+            <a href="https://wa.me/15815912714" target="_blank" rel="noreferrer" class="flex items-center justify-between rounded-md border hairline bg-white/[0.04] px-4 py-4 text-sm font-extrabold text-white transition hover:border-white/35 hover:bg-white/[0.1]">
+              <span>+1 581 591 2714</span>
+              <span class="text-white/42">WhatsApp</span>
+            </a>
+            <button id="copyDiscord" class="flex w-full items-center justify-between rounded-md border hairline bg-white/[0.04] px-4 py-4 text-left text-sm font-extrabold text-white transition hover:border-white/35 hover:bg-white/[0.1]">
+              <span>kp9b</span>
+              <span id="discordLabel" class="text-white/42">Discord</span>
+            </button>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="border-t border-white/10 px-5 py-8 md:px-8">
-    <div class="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-neutral-500 md:flex-row md:items-center md:justify-between">
-      <p>© <span id="year"></span> Xohus.</p>
-      <p>Clarity / Lazy Devs / Xohus Interactive.</p>
+  <footer class="border-t hairline px-5 py-8 md:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col gap-5 text-sm font-bold text-white/36 md:flex-row md:items-center md:justify-between">
+      <p>© <span id="year"></span> Xohus. Built clean, useful, and fast.</p>
+      <a href="#top" class="text-white/54 transition hover:text-white">Back to top</a>
     </div>
   </footer>
 
   <script>
     const root = document.documentElement;
-    const progress = document.getElementById("scrollProgress");
-    const panels = document.querySelectorAll(".panel, .media-frame");
-    const reveals = document.querySelectorAll(".reveal");
+    const progress = document.getElementById("progress");
+    const interactive = document.querySelectorAll(".glass");
+    const revealItems = document.querySelectorAll(".fade-up");
     const copyDiscord = document.getElementById("copyDiscord");
     const discordLabel = document.getElementById("discordLabel");
 
@@ -564,25 +505,25 @@
       root.style.setProperty("--my", `${event.clientY}px`);
     });
 
-    panels.forEach((panel) => {
-      panel.addEventListener("pointermove", (event) => {
-        const rect = panel.getBoundingClientRect();
-        panel.style.setProperty("--px", `${event.clientX - rect.left}px`);
-        panel.style.setProperty("--py", `${event.clientY - rect.top}px`);
+    interactive.forEach((item) => {
+      item.addEventListener("pointermove", (event) => {
+        const rect = item.getBoundingClientRect();
+        item.style.setProperty("--px", `${event.clientX - rect.left}px`);
+        item.style.setProperty("--py", `${event.clientY - rect.top}px`);
       });
     });
 
-    const observer = new IntersectionObserver((entries) => {
+    const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add("show");
+        if (entry.isIntersecting) entry.target.classList.add("visible");
       });
-    }, { threshold: 0.14 });
+    }, { threshold: 0.12 });
 
-    reveals.forEach((item) => observer.observe(item));
+    revealItems.forEach((item) => revealObserver.observe(item));
 
     window.addEventListener("scroll", () => {
       const height = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.width = `${(window.scrollY / height) * 100}%`;
+      progress.style.width = `${height > 0 ? (window.scrollY / height) * 100 : 0}%`;
     });
 
     if (copyDiscord) {
