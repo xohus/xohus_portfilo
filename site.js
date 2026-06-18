@@ -1,29 +1,29 @@
-const root = document.documentElement;
-root.classList.add("js");
+document.documentElement.classList.add("no-js");
 
-window.addEventListener("pointermove", (event) => {
-  root.style.setProperty("--mx", `${event.clientX}px`);
-  root.style.setProperty("--my", `${event.clientY}px`);
-});
+const revealItems = document.querySelectorAll(".reveal");
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) entry.target.classList.add("visible");
-  });
-}, { threshold: 0.16 });
+if ("IntersectionObserver" in window) {
+  document.documentElement.classList.remove("no-js");
 
-document.querySelectorAll(".reveal").forEach((item) => observer.observe(item));
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.14 });
 
-document.querySelectorAll(".magnetic").forEach((item) => {
+  revealItems.forEach((item) => observer.observe(item));
+} else {
+  revealItems.forEach((item) => item.classList.add("visible"));
+}
+
+document.querySelectorAll(".project-card, .service-card, .process-card, .button, .nav-button").forEach((item) => {
   item.addEventListener("pointermove", (event) => {
     const rect = item.getBoundingClientRect();
-    const x = (event.clientX - rect.left - rect.width / 2) * 0.1;
-    const y = (event.clientY - rect.top - rect.height / 2) * 0.1;
-    item.style.transform = `translate(${x}px, ${y}px)`;
-  });
-
-  item.addEventListener("pointerleave", () => {
-    item.style.transform = "";
+    item.style.setProperty("--x", `${event.clientX - rect.left}px`);
+    item.style.setProperty("--y", `${event.clientY - rect.top}px`);
   });
 });
 
@@ -31,15 +31,15 @@ const copyDiscord = document.getElementById("copyDiscord");
 
 if (copyDiscord) {
   copyDiscord.addEventListener("click", async () => {
-    const label = copyDiscord.querySelector("strong");
+    const value = copyDiscord.querySelector("strong");
     try {
       await navigator.clipboard.writeText("kp9b");
-      label.textContent = "Copied: kp9b";
+      value.textContent = "Copied: kp9b";
       setTimeout(() => {
-        label.textContent = "kp9b";
+        value.textContent = "kp9b";
       }, 1400);
     } catch {
-      label.textContent = "kp9b";
+      value.textContent = "kp9b";
     }
   });
 }
