@@ -1,4 +1,5 @@
 const root = document.documentElement;
+root.classList.add("js");
 
 window.addEventListener("pointermove", (event) => {
   root.style.setProperty("--mx", `${event.clientX}px`);
