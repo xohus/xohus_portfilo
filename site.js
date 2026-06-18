@@ -19,7 +19,7 @@ if ("IntersectionObserver" in window) {
   revealItems.forEach((item) => item.classList.add("visible"));
 }
 
-document.querySelectorAll(".project-card, .service-card, .process-card, .button, .nav-button").forEach((item) => {
+document.querySelectorAll(".project-card, .service-card, .process-card, .work-card, .detail-panel, .wide-panel, .about-panel, .cta-panel, .button, .nav-button").forEach((item) => {
   item.addEventListener("pointermove", (event) => {
     const rect = item.getBoundingClientRect();
     item.style.setProperty("--x", `${event.clientX - rect.left}px`);
