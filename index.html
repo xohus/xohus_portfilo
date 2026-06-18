@@ -232,35 +232,6 @@
       transform: translateY(0);
     }
 
-    .cursor-dot {
-      pointer-events: none;
-      position: fixed;
-      left: 0;
-      top: 0;
-      z-index: 100;
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: #f5f5f5;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      mix-blend-mode: screen;
-    }
-
-    .cursor-ring {
-      pointer-events: none;
-      position: fixed;
-      left: 0;
-      top: 0;
-      z-index: 99;
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.36);
-      transform: translate(-50%, -50%);
-      opacity: 0;
-    }
-
     .glow {
       position: absolute;
       width: 420px;
@@ -361,17 +332,11 @@
 
     .project-line {
       position: relative;
+      border-left: 1px solid rgba(255,255,255,0.12);
     }
 
     .project-line::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.7rem;
-      width: 0.45rem;
-      height: 0.45rem;
-      background: #f5f5f5;
-      box-shadow: 0 0 24px rgba(255,255,255,0.28);
+      display: none;
     }
 
     .skill-token {
@@ -472,6 +437,31 @@
       opacity: 0.55;
     }
 
+    .shimmer-link {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shimmer-link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.28) 45%, transparent 65%);
+      transform: translateX(-140%);
+      transition: transform 700ms ease;
+      pointer-events: none;
+    }
+
+    .shimmer-link:hover::after {
+      transform: translateX(140%);
+    }
+
+    .section-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), transparent);
+      mask-image: linear-gradient(90deg, transparent, black 18%, black 82%, transparent);
+    }
+
     @keyframes scanMove {
       0%, 100% {
         transform: translateY(-120%);
@@ -492,19 +482,11 @@
       }
     }
 
-    @media (max-width: 768px) {
-      .cursor-dot,
-      .cursor-ring {
-        display: none;
-      }
-    }
   </style>
 </head>
 
 <body>
   <div class="scroll-progress" id="scrollProgress"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
   <div class="noise"></div>
 
   <header class="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/70 backdrop-blur-2xl">
@@ -523,7 +505,7 @@
         <a href="#contact" class="magnetic transition hover:text-white">Contact</a>
       </div>
 
-      <a href="#contact" class="magnetic border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold text-white transition hover:border-white/50 hover:bg-white/10">
+      <a href="#contact" class="magnetic shimmer-link border border-white/15 bg-white/5 px-4 py-2 text-sm font-bold text-white transition hover:border-white/50 hover:bg-white/10">
         Contact
       </a>
     </nav>
@@ -553,11 +535,11 @@
             </p>
 
             <div class="mt-10 flex flex-wrap gap-3">
-              <a href="#work" class="magnetic bg-white px-5 py-3 text-sm font-black text-black shadow-[10px_10px_0_rgba(255,255,255,0.12)] transition hover:bg-neutral-200">
+              <a href="#work" class="magnetic shimmer-link bg-white px-5 py-3 text-sm font-black text-black shadow-[10px_10px_0_rgba(255,255,255,0.12)] transition hover:bg-neutral-200">
                 View selected work
               </a>
 
-              <button id="copyDiscordTop" class="magnetic border border-white/15 bg-white/5 px-5 py-3 text-sm font-black text-white transition hover:border-white/45 hover:bg-white/10">
+              <button id="copyDiscordTop" class="magnetic shimmer-link border border-white/15 bg-white/5 px-5 py-3 text-sm font-black text-white transition hover:border-white/45 hover:bg-white/10">
                 Discord: kp9b
               </button>
             </div>
@@ -583,7 +565,6 @@
               <div class="image-cut beam-border">
                 <img src="./me.png" alt="xohus portrait" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-                <p class="absolute bottom-5 left-5 text-xs font-black uppercase tracking-[0.28em] text-neutral-300">Public identity</p>
               </div>
 
               <div class="edge-panel grid place-items-center p-6">
@@ -609,9 +590,9 @@
           </div>
 
           <div class="edge-panel p-5 md:col-span-3">
-            <p class="text-xs font-black uppercase tracking-[0.28em] text-neutral-500">Identity</p>
+            <p class="text-xs font-black uppercase tracking-[0.28em] text-neutral-500">Name</p>
             <p class="font-display mt-4 text-3xl font-black text-white">Xohus</p>
-            <p class="mt-3 text-sm leading-6 text-neutral-400">Public name for the work.</p>
+            <p class="mt-3 text-sm leading-6 text-neutral-400">The name everything connects back to.</p>
           </div>
         </div>
 
@@ -640,6 +621,8 @@
         </div>
       </div>
     </section>
+
+    <div class="section-rule"></div>
 
     <section id="work" class="relative mx-auto max-w-7xl px-5 py-24 md:px-8">
       <div class="mb-12 grid gap-6 md:grid-cols-12">
@@ -673,7 +656,7 @@
                 <span class="border border-white/10 bg-black/30 px-4 py-2 text-xs font-black text-neutral-300 backdrop-blur-xl">
                   Marketplace
                 </span>
-                <span class="magnetic bg-white px-4 py-2 text-xs font-black text-black">
+                <span class="magnetic shimmer-link bg-white px-4 py-2 text-xs font-black text-black">
                   Open
                 </span>
               </div>
@@ -734,7 +717,6 @@
         <div class="image-cut h-[420px] md:col-span-4">
           <img src="./me.png" alt="xohus portrait" />
           <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-          <p class="absolute bottom-5 left-5 text-xs font-black uppercase tracking-[0.28em] text-neutral-300">Public identity</p>
         </div>
 
         <div class="edge-panel p-8 md:col-span-8">
@@ -748,6 +730,8 @@
         </div>
       </div>
     </section>
+
+    <div class="section-rule"></div>
 
     <section id="ecosystem" class="relative overflow-hidden border-y border-white/10 bg-white/[0.02] px-5 py-24 md:px-8">
       <div class="grid-bg absolute inset-0 opacity-45"></div>
@@ -767,7 +751,7 @@
               <article class="project-line beam-border bg-black/40 p-6 pl-10 backdrop-blur-xl">
                 <div class="flex flex-wrap items-center gap-3">
                   <h3 class="font-display text-2xl font-black text-white">Xohus</h3>
-                  <span class="border border-white/10 bg-white/5 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-neutral-400">Identity</span>
+                  <span class="border border-white/10 bg-white/5 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-neutral-400">Online name</span>
                 </div>
                 <p class="mt-4 max-w-3xl leading-8 text-neutral-400">
                   The name I use online instead of my real name. It connects my branding, coding, Discord work, Roblox scripting, and business ideas.
@@ -857,6 +841,8 @@
       </div>
     </section>
 
+    <div class="section-rule"></div>
+
     <section id="about" class="relative overflow-hidden border-y border-white/10 bg-white/[0.025]">
       <div class="shader-plane opacity-50"></div>
       <div class="relative z-10 mx-auto grid max-w-7xl gap-12 px-5 py-24 md:grid-cols-12 md:px-8">
@@ -901,6 +887,8 @@
       </div>
     </section>
 
+    <div class="section-rule"></div>
+
     <section id="contact" class="relative overflow-hidden px-5 py-24 md:px-8">
       <div class="glow right-[-160px] top-[-100px]"></div>
 
@@ -922,17 +910,17 @@
         <div class="reveal md:col-span-5" style="transition-delay: 120ms">
           <div class="edge-panel p-6">
             <div class="space-y-3">
-              <a href="mailto:xohus@tuta.com" class="magnetic flex items-center justify-between border border-white/10 bg-white/[0.03] px-4 py-4 text-sm font-bold text-white transition hover:border-white/45 hover:bg-white/10">
+              <a href="mailto:xohus@tuta.com" class="magnetic shimmer-link flex items-center justify-between border border-white/10 bg-white/[0.03] px-4 py-4 text-sm font-bold text-white transition hover:border-white/45 hover:bg-white/10">
                 <span>xohus@tuta.com</span>
                 <span>Email</span>
               </a>
 
-              <a href="https://wa.me/15815912714" target="_blank" rel="noreferrer" class="magnetic flex items-center justify-between border border-white/10 bg-white/[0.03] px-4 py-4 text-sm font-bold text-white transition hover:border-white/45 hover:bg-white/10">
+              <a href="https://wa.me/15815912714" target="_blank" rel="noreferrer" class="magnetic shimmer-link flex items-center justify-between border border-white/10 bg-white/[0.03] px-4 py-4 text-sm font-bold text-white transition hover:border-white/45 hover:bg-white/10">
                 <span>+1 581 591 2714</span>
                 <span>WhatsApp</span>
               </a>
 
-              <button id="copyDiscord" class="magnetic flex w-full items-center justify-between border border-white/10 bg-white/[0.03] px-4 py-4 text-left text-sm font-bold text-white transition hover:border-white/45 hover:bg-white/10">
+              <button id="copyDiscord" class="magnetic shimmer-link flex w-full items-center justify-between border border-white/10 bg-white/[0.03] px-4 py-4 text-left text-sm font-bold text-white transition hover:border-white/45 hover:bg-white/10">
                 <span>kp9b</span>
                 <span id="discordLabel">Discord</span>
               </button>
@@ -952,8 +940,6 @@
 
   <script>
     const root = document.documentElement;
-    const cursorDot = document.getElementById("cursorDot");
-    const cursorRing = document.getElementById("cursorRing");
     const progress = document.getElementById("scrollProgress");
     const magneticItems = document.querySelectorAll(".magnetic");
     const edgePanels = document.querySelectorAll(".edge-panel, .image-cut");
@@ -977,35 +963,6 @@
       root.style.setProperty("--x", `${e.clientX}px`);
       root.style.setProperty("--y", `${e.clientY}px`);
 
-      cursorDot.style.opacity = "1";
-      cursorRing.style.opacity = "1";
-
-      cursorDot.animate(
-        { transform: `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)` },
-        { duration: 100, fill: "forwards", easing: "ease-out" }
-      );
-
-      cursorRing.animate(
-        { transform: `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)` },
-        { duration: 420, fill: "forwards", easing: "ease-out" }
-      );
-
-    });
-
-    document.querySelectorAll("a, button, .card, .edge-panel, .image-cut").forEach((item) => {
-      item.addEventListener("mouseenter", () => {
-        cursorDot.style.width = "24px";
-        cursorDot.style.height = "24px";
-        cursorRing.style.width = "70px";
-        cursorRing.style.height = "70px";
-      });
-
-      item.addEventListener("mouseleave", () => {
-        cursorDot.style.width = "10px";
-        cursorDot.style.height = "10px";
-        cursorRing.style.width = "44px";
-        cursorRing.style.height = "44px";
-      });
     });
 
     magneticItems.forEach((item) => {
