@@ -74,6 +74,51 @@ copyDiscord?.addEventListener('click', async () => {
   } catch { label.textContent = 'KP9B'; }
 });
 
+const soundToggle = document.getElementById('soundToggle');
+let soundEnabled = true;
+let audioContext = null;
+let lastNoteAt = 0;
+const pianoScale = [130.81, 146.83, 164.81, 196, 220, 261.63, 293.66, 329.63];
+const ensureAudio = () => {
+  if (!soundEnabled) return null;
+  audioContext ??= new (window.AudioContext || window.webkitAudioContext)();
+  if (audioContext.state === 'suspended') audioContext.resume();
+  return audioContext;
+};
+const playScrollNote = () => {
+  const now = performance.now();
+  if (!soundEnabled || now - lastNoteAt < 105) return;
+  const context = ensureAudio();
+  if (!context) return;
+  lastNoteAt = now;
+  const index = Math.abs(Math.floor(scrollY / 150)) % pianoScale.length;
+  const master = context.createGain();
+  const low = context.createBiquadFilter();
+  low.type = 'lowpass'; low.frequency.value = 1800;
+  master.gain.setValueAtTime(.0001, context.currentTime);
+  master.gain.exponentialRampToValueAtTime(.045, context.currentTime + .008);
+  master.gain.exponentialRampToValueAtTime(.0001, context.currentTime + .62);
+  low.connect(master).connect(context.destination);
+  [1, 2].forEach((harmonic, i) => {
+    const osc = context.createOscillator();
+    const gain = context.createGain();
+    osc.type = i ? 'sine' : 'triangle';
+    osc.frequency.value = pianoScale[index] * harmonic;
+    gain.gain.value = i ? .14 : .7;
+    osc.connect(gain).connect(low);
+    osc.start(); osc.stop(context.currentTime + .65);
+  });
+};
+addEventListener('wheel', () => { ensureAudio(); playScrollNote(); }, { passive: true });
+addEventListener('touchstart', ensureAudio, { passive: true });
+addEventListener('scroll', playScrollNote, { passive: true });
+soundToggle?.addEventListener('click', () => {
+  soundEnabled = !soundEnabled;
+  soundToggle.setAttribute('aria-pressed', String(soundEnabled));
+  soundToggle.textContent = `SOUND / ${soundEnabled ? 'ON' : 'OFF'}`;
+  if (soundEnabled) ensureAudio();
+});
+
 const canvas = document.getElementById('portraitShader');
 const source = document.getElementById('portraitSource');
 if (!reduced && canvas && source) {
@@ -83,7 +128,7 @@ if (!reduced && canvas && source) {
     const compile = (type, code) => { const shader = gl.createShader(type); gl.shaderSource(shader, code); gl.compileShader(shader); return shader; };
     const program = gl.createProgram();
     gl.attachShader(program, compile(gl.VERTEX_SHADER, 'attribute vec2 p;varying vec2 v;void main(){v=(p+1.0)*.5;gl_Position=vec4(p,0.,1.);}'));
-    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 v;uniform sampler2D tex;uniform float t;uniform float vel;uniform vec2 mouse;void main(){vec2 uv=v;float wave=sin(uv.y*18.0+t*1.6+mouse.x*3.0)*.008*vel;float bend=(uv.y-.5)*.025*vel;uv.x+=wave+bend+(mouse.x-.5)*.015;uv.y+=cos(uv.x*12.0+t)*.004*vel;float split=.004*abs(vel);float r=texture2D(tex,uv+vec2(split,0.)).r;float g=texture2D(tex,uv).g;float b=texture2D(tex,uv-vec2(split,0.)).b;vec3 col=vec3(r,g,b);float gray=dot(col,vec3(.299,.587,.114));col=mix(vec3(gray),col,.2+min(abs(vel),1.0)*.8);gl_FragColor=vec4(col,1.);}'));
+    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 v;uniform sampler2D tex;uniform float t;uniform float vel;uniform vec2 mouse;void main(){vec2 uv=v;float force=.22+min(abs(vel),2.0);float wave=sin(uv.y*18.0+t*1.8+mouse.x*3.0)*.006*force;float wiggle=sin(t*1.25+uv.y*7.0)*.0025;float bend=(uv.y-.5)*.018*vel;uv.x+=wave+wiggle+bend+(mouse.x-.5)*.015;uv.y+=cos(uv.x*12.0+t)*.0035*force;float split=.002+(.004*abs(vel));float r=texture2D(tex,uv+vec2(split,0.)).r;float g=texture2D(tex,uv).g;float b=texture2D(tex,uv-vec2(split,0.)).b;vec3 col=vec3(r,g,b);float gray=dot(col,vec3(.299,.587,.114));col=mix(vec3(gray),col,.3+min(abs(vel),1.0)*.7);gl_FragColor=vec4(col,1.);}'));
     gl.linkProgram(program); gl.useProgram(program);
     const buffer = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buffer); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
     const position = gl.getAttribLocation(program,'p'); gl.enableVertexAttribArray(position); gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
