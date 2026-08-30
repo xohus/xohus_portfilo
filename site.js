@@ -2,40 +2,24 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = matchMedia('(pointer: fine)').matches;
 
 const reveals = document.querySelectorAll('.section-head, .project, .about > *, .contact > *');
-reveals.forEach((el) => el.classList.add('reveal-motion'));
-if (!reduced && 'IntersectionObserver' in window) {
-  const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add('in');
-    observer.unobserve(entry.target);
-  }), { threshold: .1 });
-  reveals.forEach((el) => observer.observe(el));
-} else reveals.forEach((el) => el.classList.add('in'));
+reveals.forEach((el) => el.classList.add('in'));
 
 let scrollVelocity = 0;
-if (!reduced && finePointer) {
-  let targetScroll = scrollY;
-  let renderedScroll = scrollY;
-  addEventListener('wheel', (event) => {
-    event.preventDefault();
-    targetScroll = Math.max(0, Math.min(document.documentElement.scrollHeight - innerHeight, targetScroll + event.deltaY));
-  }, { passive: false });
-  const smoothScroll = () => {
-    const previous = renderedScroll;
-    renderedScroll += (targetScroll - renderedScroll) * .08;
-    scrollVelocity += (((renderedScroll - previous) / 45) - scrollVelocity) * .12;
-    if (Math.abs(targetScroll - renderedScroll) < .1) renderedScroll = targetScroll;
-    scrollTo(0, renderedScroll);
-    requestAnimationFrame(smoothScroll);
-  };
-  smoothScroll();
-  document.querySelectorAll('a[href^="#"]').forEach((link) => link.addEventListener('click', (event) => {
-    const destination = document.querySelector(link.getAttribute('href'));
-    if (!destination) return;
-    event.preventDefault();
-    targetScroll = destination.offsetTop;
-  }));
-}
+let lastScrollY = scrollY;
+let lastScrollTime = performance.now();
+const trackNativeVelocity = () => {
+  const now = performance.now();
+  const elapsed = Math.max(1, now - lastScrollTime);
+  scrollVelocity = Math.max(-2, Math.min(2, ((scrollY - lastScrollY) / elapsed) * .32));
+  lastScrollY = scrollY;
+  lastScrollTime = now;
+};
+addEventListener('scroll', trackNativeVelocity, { passive: true });
+const decayVelocity = () => {
+  scrollVelocity *= .9;
+  requestAnimationFrame(decayVelocity);
+};
+decayVelocity();
 
 const readout = document.getElementById('scrollReadout');
 const stretchTitle = document.querySelector('[data-stretch]');
@@ -79,6 +63,16 @@ document.querySelectorAll('.project').forEach((project) => project.addEventListe
   transitionPanel.classList.add('active');
   setTimeout(() => { location.href = project.href; }, 610);
 }));
+
+const copyDiscord = document.getElementById('copyDiscord');
+copyDiscord?.addEventListener('click', async () => {
+  const label = copyDiscord.querySelector('strong');
+  try {
+    await navigator.clipboard.writeText('kp9b');
+    label.textContent = 'COPIED';
+    setTimeout(() => { label.textContent = 'KP9B'; }, 1200);
+  } catch { label.textContent = 'KP9B'; }
+});
 
 const canvas = document.getElementById('portraitShader');
 const source = document.getElementById('portraitSource');
