@@ -5,11 +5,11 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-COPY index.html about.html contact.html projects.html skills.html site.css site.js ./
+COPY index.html about.html contact.html projects.html skills.html site.css theme.css site.js ./
 COPY *.png ./
 
 RUN npm run build \
-    && cp about.html contact.html projects.html skills.html site.css site.js dist/ \
+    && cp about.html contact.html projects.html skills.html site.css theme.css site.js dist/ \
     && cp *.png dist/
 
 FROM nginx:1.27-alpine

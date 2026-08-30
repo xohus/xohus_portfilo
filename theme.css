@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap');
+:root{--bg:#080b12;--fg:#f4f1ea;--muted:#929bad;--line:#252c3a;--signal:#73a7ff;--panel:#0e131e}
+.hero h1,.section-head h2,.about h2,.contact h2,.project h3{font-family:'Space Grotesk',Inter,Arial,sans-serif;letter-spacing:-.055em}
+.hero{min-height:calc(100vh - 94px);padding-right:31vw}
+.hero h1{font-size:clamp(58px,9.5vw,146px);line-height:.86;max-width:78vw}
+.hero-portrait{position:absolute;z-index:1;right:4vw;bottom:70px;width:min(27vw,390px);height:min(64vh,610px);margin:0;border:1px solid var(--line);background:#0c111b;overflow:hidden;animation:portraitIn .9s .25s cubic-bezier(.2,.85,.2,1) both}
+.hero-portrait::before{content:'';position:absolute;inset:14px;border:1px solid rgba(115,167,255,.45);z-index:2;pointer-events:none}
+.hero-portrait img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(.72) contrast(1.05);transition:filter .4s,transform .7s cubic-bezier(.2,.8,.2,1)}
+.hero-portrait:hover img{filter:saturate(1) contrast(1);transform:scale(1.025)}
+.hero-portrait figcaption{position:absolute;left:14px;bottom:14px;z-index:3;padding:8px 10px;background:var(--bg);font:10px 'DM Mono',monospace;color:var(--signal)}
+.hero::before,.hero::after,.orbit{display:none}
+.ticker{background:var(--signal);color:#07101f}
+.project:hover{color:#07101f}.project:hover p{color:#1b2a42}
+.contact-row{grid-template-columns:1fr}.contact-row a{text-align:right}
+@keyframes portraitIn{from{opacity:0;transform:translateY(50px) rotate(2deg)}to{opacity:1;transform:none}}
+@media(max-width:800px){.hero{padding-right:18px;min-height:auto}.hero h1{max-width:none;font-size:clamp(51px,15.7vw,86px);margin-bottom:34px}.hero-portrait{position:relative;right:auto;bottom:auto;width:100%;height:58vh;max-height:540px;margin:0 0 34px}.hero-foot{margin-top:0}}
+@media(prefers-reduced-motion:reduce){.hero-portrait{animation:none}}
