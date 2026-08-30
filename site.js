@@ -1,54 +1,44 @@
-document.documentElement.classList.add("no-js");
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const revealItems = document.querySelectorAll('.section-head, .project, .about > *, .contact > *');
 
-const progressBar = document.querySelector(".scroll-progress span");
-const updateProgress = () => {
-  const available = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = available > 0 ? window.scrollY / available : 0;
-  progressBar?.style.setProperty("transform", `scaleX(${Math.min(1, Math.max(0, progress))})`);
-};
-window.addEventListener("scroll", updateProgress, { passive: true });
-updateProgress();
+revealItems.forEach((item) => item.classList.add('reveal-motion'));
 
-const revealItems = document.querySelectorAll(".reveal");
-
-if ("IntersectionObserver" in window) {
-  document.documentElement.classList.remove("no-js");
-
+if (!reduceMotion && 'IntersectionObserver' in window) {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
-      }
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
     });
-  }, { threshold: 0.14 });
-
+  }, { threshold: 0.12 });
   revealItems.forEach((item) => observer.observe(item));
 } else {
-  revealItems.forEach((item) => item.classList.add("visible"));
+  revealItems.forEach((item) => item.classList.add('in'));
 }
 
-document.querySelectorAll(".project-card, .service-card, .process-card, .work-card, .detail-panel, .wide-panel, .about-panel, .cta-panel, .button, .nav-button").forEach((item) => {
-  item.addEventListener("pointermove", (event) => {
-    const rect = item.getBoundingClientRect();
-    item.style.setProperty("--x", `${event.clientX - rect.left}px`);
-    item.style.setProperty("--y", `${event.clientY - rect.top}px`);
-  });
-});
-
-const copyDiscord = document.getElementById("copyDiscord");
-
-if (copyDiscord) {
-  copyDiscord.addEventListener("click", async () => {
-    const value = copyDiscord.querySelector("strong");
-    try {
-      await navigator.clipboard.writeText("kp9b");
-      value.textContent = "Copied: kp9b";
-      setTimeout(() => {
-        value.textContent = "kp9b";
-      }, 1400);
-    } catch {
-      value.textContent = "kp9b";
-    }
+const cursor = document.querySelector('.cursor');
+const cursorLabel = document.querySelector('.cursor-label');
+if (!reduceMotion && matchMedia('(pointer: fine)').matches) {
+  let x = innerWidth / 2;
+  let y = innerHeight / 2;
+  let cx = x;
+  let cy = y;
+  addEventListener('pointermove', (event) => {
+    x = event.clientX;
+    y = event.clientY;
+    cursor.style.opacity = '1';
+  }, { passive: true });
+  const draw = () => {
+    cx += (x - cx) * 0.18;
+    cy += (y - cy) * 0.18;
+    const position = `translate(${cx}px, ${cy}px)`;
+    cursor.style.transform = `${position} translate(-50%, -50%)`;
+    cursorLabel.style.transform = `${position} translate(-50%, -50%)`;
+    requestAnimationFrame(draw);
+  };
+  draw();
+  document.querySelectorAll('.project').forEach((project) => {
+    project.addEventListener('pointerenter', () => document.body.classList.add('project-hover'));
+    project.addEventListener('pointerleave', () => document.body.classList.remove('project-hover'));
   });
 }
