@@ -1,5 +1,14 @@
 document.documentElement.classList.add("no-js");
 
+const progressBar = document.querySelector(".scroll-progress span");
+const updateProgress = () => {
+  const available = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = available > 0 ? window.scrollY / available : 0;
+  progressBar?.style.setProperty("transform", `scaleX(${Math.min(1, Math.max(0, progress))})`);
+};
+window.addEventListener("scroll", updateProgress, { passive: true });
+updateProgress();
+
 const revealItems = document.querySelectorAll(".reveal");
 
 if ("IntersectionObserver" in window) {

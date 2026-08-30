@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="./site.css" />
 </head>
 <body>
+  <a class="skip-link" href="#projects">Skip to projects</a>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <div class="ambient ambient-one" aria-hidden="true"></div>
   <div class="ambient ambient-two" aria-hidden="true"></div>
 
@@ -29,18 +31,19 @@
     <section class="hero section-pad">
       <div class="hero-grid">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Scripts · Bots · Web</p>
-          <h1>Xohus</h1>
-          <p class="hero-text">I build around CloudCord: Discord client work, Roblox script tooling, Discord systems, automation, deployment setup, and the web pages those projects need.</p>
+          <div class="availability"><i></i> Available for selected projects</div>
+          <p class="eyebrow">Independent developer · Product builder</p>
+          <h1>Ideas into<br><span>products.</span></h1>
+          <p class="hero-text">I build polished client software, Discord tools, automation, and web products — including CloudCord, RealCord, Rebuild, and HexCheats.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#projects">See Projects <span class="arrow-icon" aria-hidden="true"></span></a>
             <a class="button button-secondary" href="#contact">Contact <span class="arrow-icon" aria-hidden="true"></span></a>
           </div>
           <div class="proof-row component-row">
-            <span>Roblox Lua</span>
+            <span>Desktop & mobile</span>
             <span>Discord systems</span>
-            <span>AI bot ideas</span>
-            <span>Web/store setup</span>
+            <span>Automation</span>
+            <span>Web products</span>
           </div>
         </div>
 
@@ -49,8 +52,8 @@
             <div class="portrait-depth" aria-hidden="true"></div>
             <img src="./2AF7E680-443A-4AC4-B4B6-0D793846DD5F.png" alt="Xohus portrait" />
             <div class="portrait-dock">
-              <span>Main project</span>
-              <strong>CloudCord</strong>
+              <span>Now building</span>
+              <strong>CloudCord · RealCord</strong>
             </div>
           </div>
         </div>
@@ -81,9 +84,12 @@
         <h2>About Xohus</h2>
       </div>
       <div class="about-panel reveal delay-1">
-        <p>Xohus is my name online. This is where I keep my projects: CloudCord, Clarity, Discord bot ideas, Roblox scripting, payment/product concepts, and website/store setup.</p>
+        <p>Xohus is my name online. I design and build focused products across desktop, mobile, Discord, automation, payments, and the web.</p>
         <div class="tag-cloud">
           <span>CloudCord</span>
+          <span>RealCord</span>
+          <span>Rebuild</span>
+          <span>HexCheats</span>
           <span>Clarity</span>
           <span>Roblox Scripting</span>
           <span>Discord Bots</span>
@@ -97,8 +103,9 @@
 
     <section id="projects" class="projects section-pad">
       <div class="section-heading reveal">
-        <p class="eyebrow">Projects</p>
-        <h2>Online Work</h2>
+        <p class="eyebrow">Selected work · 2026</p>
+        <h2>Products, not placeholders.</h2>
+        <p class="section-intro">A focused selection of live products. Every featured card goes straight to something you can explore.</p>
       </div>
       <div class="project-grid">
         <article class="project-card reveal">
@@ -113,16 +120,34 @@
           </div>
         </article>
 
-        <article class="project-card reveal delay-1">
+        <article class="project-card project-featured reveal delay-1">
           <div class="project-top">
             <span>Discord client</span>
             <h3>CloudCord</h3>
           </div>
-          <p>Main project: a Discord client that supports iOS and Android now, with desktop / PC in development.</p>
+          <p>A modern Discord client modification for iOS, Android, and Windows with plugins, themes, profile customization, and cross-device sync.</p>
           <div class="project-bottom">
-            <span>Main project</span>
-            <a href="https://github.com/xohus/cloudcord" target="_blank" rel="noreferrer" aria-label="Open CloudCord on GitHub">GitHub <i class="arrow-icon" aria-hidden="true"></i></a>
+            <span>cloudcord.xohus.lol</span>
+            <a href="https://cloudcord.xohus.lol" target="_blank" rel="noreferrer" aria-label="Open the CloudCord website">Visit site <i class="arrow-icon" aria-hidden="true"></i></a>
           </div>
+        </article>
+
+        <article class="project-card project-featured reveal delay-2">
+          <div class="project-top"><span>Desktop client</span><h3>RealCord</h3></div>
+          <p>A private, customizable Discord desktop client focused on control, device identity, and a cleaner native experience.</p>
+          <div class="project-bottom"><span>realcord.xohus.lol</span><a href="https://realcord.xohus.lol" target="_blank" rel="noreferrer">Visit site <i class="arrow-icon" aria-hidden="true"></i></a></div>
+        </article>
+
+        <article class="project-card project-featured reveal">
+          <div class="project-top"><span>Backups & verification</span><h3>Rebuild</h3></div>
+          <p>Discord server backups and verification tools for simpler recovery, setup, and community protection.</p>
+          <div class="project-bottom"><span>rbuild.xyz</span><a href="https://rbuild.xyz" target="_blank" rel="noreferrer">Visit site <i class="arrow-icon" aria-hidden="true"></i></a></div>
+        </article>
+
+        <article class="project-card project-featured reveal delay-1">
+          <div class="project-top"><span>Game utilities</span><h3>HexCheats</h3></div>
+          <p>A focused collection of game tools, utilities, and supporting services built for a fast, straightforward experience.</p>
+          <div class="project-bottom"><span>hexcheats.xyz</span><a href="https://hexcheats.xyz" target="_blank" rel="noreferrer">Visit site <i class="arrow-icon" aria-hidden="true"></i></a></div>
         </article>
 
         <article class="project-card reveal delay-2">
@@ -154,10 +179,10 @@
             <span>Payments</span>
             <h3>Xohus Interactive</h3>
           </div>
-          <p>Payment processor project connected to my Xohus work. It is currently down.</p>
+          <p>A payment platform for products and services across the Xohus ecosystem.</p>
           <div class="project-bottom">
-            <span>Processor</span>
-            <a href="#contact">Contact <i class="arrow-icon" aria-hidden="true"></i></a>
+            <span>payment.xohus.lol</span>
+            <a href="https://payment.xohus.lol" target="_blank" rel="noreferrer">Visit site <i class="arrow-icon" aria-hidden="true"></i></a>
           </div>
         </article>
 
