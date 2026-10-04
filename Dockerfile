@@ -7,10 +7,12 @@ RUN npm ci
 
 COPY index.html about.html contact.html projects.html skills.html site.css theme.css site.js ./
 COPY *.png ./
+COPY space ./space
 
 RUN npm run build \
     && cp about.html contact.html projects.html skills.html site.css theme.css site.js dist/ \
-    && cp *.png dist/
+    && cp *.png dist/ \
+    && cp -r space dist/space
 
 FROM nginx:1.27-alpine
 
